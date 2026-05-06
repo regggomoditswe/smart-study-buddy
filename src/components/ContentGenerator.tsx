@@ -1,9 +1,8 @@
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { Loader2, Sparkles, Copy, Check } from "lucide-react";
+import { Loader2, Sparkles, Copy, Check, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -79,7 +78,7 @@ export function ContentGenerator({ initialTopic }: { initialTopic?: string }) {
               id="topic"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
-              placeholder="e.g. Email asking my professor for a deadline extension on my history essay"
+              placeholder="Example: Write a professional email asking my lecturer for an assignment extension."
               rows={4}
             />
           </div>
@@ -110,18 +109,29 @@ export function ContentGenerator({ initialTopic }: { initialTopic?: string }) {
             </div>
           </div>
 
-          <Button onClick={handleGenerate} disabled={loading} className="w-full" size="lg">
-            {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : <Sparkles className="mr-2 size-4" />}
-            {loading ? "Generating..." : "Generate"}
-          </Button>
+          <div className="flex gap-3">
+            <Button onClick={handleGenerate} disabled={loading} className="flex-1" size="lg">
+              {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : <Sparkles className="mr-2 size-4" />}
+              {loading ? "Generating..." : "Generate Content"}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="lg"
+              onClick={() => { setTopic(""); setOutput(""); }}
+              disabled={loading}
+            >
+              <RotateCcw className="mr-2 size-4" /> Clear
+            </Button>
+          </div>
         </CardContent>
       </Card>
 
       <Card className="shadow-[var(--shadow-card)]">
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
-            <CardTitle>Output</CardTitle>
-            <CardDescription>Your generated content appears here.</CardDescription>
+            <CardTitle>Generated Content</CardTitle>
+            <CardDescription>Your AI-generated content appears here.</CardDescription>
           </div>
           {output && (
             <Button variant="outline" size="sm" onClick={copyOutput}>
