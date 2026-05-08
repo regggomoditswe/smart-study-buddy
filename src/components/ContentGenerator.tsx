@@ -9,17 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { generateContent } from "@/utils/generate.functions";
 
-const CONTENT_TYPES = [
-  "Professional Email",
-  "Study Notes",
-  "Assignment Outline",
-  "Blog Post",
-  "Presentation Script",
-  "Social Media Caption",
-];
-
 export function ContentGenerator({ initialTopic }: { initialTopic?: string }) {
-  const [contentType, setContentType] = useState("Professional Email");
   const [topic, setTopic] = useState(initialTopic ?? "");
   const [tone, setTone] = useState<"professional" | "friendly" | "academic" | "simple">("professional");
   const [length, setLength] = useState<"short" | "medium" | "detailed">("medium");
@@ -29,13 +19,13 @@ export function ContentGenerator({ initialTopic }: { initialTopic?: string }) {
 
   async function handleGenerate() {
     if (!topic.trim()) {
-      toast.error("Please enter a topic or instruction.");
+      toast.error("Please describe what the email should say.");
       return;
     }
     setLoading(true);
     setOutput("");
     try {
-      const res = await generateContent({ data: { contentType, topic, tone, length } });
+      const res = await generateContent({ data: { contentType: "Professional Email", topic, tone, length } });
       setOutput(res.content);
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Something went wrong.";
@@ -56,30 +46,18 @@ export function ContentGenerator({ initialTopic }: { initialTopic?: string }) {
     <div className="grid gap-6 lg:grid-cols-2">
       <Card className="shadow-[var(--shadow-card)]">
         <CardHeader>
-          <CardTitle>Create your content</CardTitle>
-          <CardDescription>Pick a type, set the tone, and describe what you need.</CardDescription>
+          <CardTitle>Write your email</CardTitle>
+          <CardDescription>Describe the email you need and let AI draft it for you.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label>Content type</Label>
-            <Select value={contentType} onValueChange={setContentType}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>
-                {CONTENT_TYPES.map((t) => (
-                  <SelectItem key={t} value={t}>{t}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="topic">Topic or instruction</Label>
+            <Label htmlFor="topic">What should the email say?</Label>
             <Textarea
               id="topic"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               placeholder="Example: Write a professional email asking my lecturer for an assignment extension."
-              rows={4}
+              rows={5}
             />
           </div>
 
@@ -112,7 +90,7 @@ export function ContentGenerator({ initialTopic }: { initialTopic?: string }) {
           <div className="flex gap-3">
             <Button onClick={handleGenerate} disabled={loading} className="flex-1" size="lg">
               {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : <Sparkles className="mr-2 size-4" />}
-              {loading ? "Generating..." : "Generate Content"}
+              {loading ? "Writing..." : "Generate Email"}
             </Button>
             <Button
               type="button"
@@ -130,8 +108,8 @@ export function ContentGenerator({ initialTopic }: { initialTopic?: string }) {
       <Card className="shadow-[var(--shadow-card)]">
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
-            <CardTitle>Generated Content</CardTitle>
-            <CardDescription>Your AI-generated content appears here.</CardDescription>
+            <CardTitle>Generated Email</CardTitle>
+            <CardDescription>Your AI-generated email appears here.</CardDescription>
           </div>
           {output && (
             <Button variant="outline" size="sm" onClick={copyOutput}>
@@ -142,12 +120,12 @@ export function ContentGenerator({ initialTopic }: { initialTopic?: string }) {
         <CardContent>
           {loading && (
             <div className="flex h-64 items-center justify-center text-muted-foreground">
-              <Loader2 className="mr-2 size-5 animate-spin" /> Crafting your content...
+              <Loader2 className="mr-2 size-5 animate-spin" /> Drafting your email...
             </div>
           )}
           {!loading && !output && (
             <div className="flex h-64 items-center justify-center rounded-lg border border-dashed text-sm text-muted-foreground">
-              Your generated content will show here.
+              Your generated email will show here.
             </div>
           )}
           {!loading && output && (
