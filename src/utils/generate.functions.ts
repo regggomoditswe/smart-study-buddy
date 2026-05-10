@@ -17,7 +17,15 @@ const lengthGuide: Record<string, string> = {
 export const generateContent = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => InputSchema.parse(input))
   .handler(async ({ data }) => {
-    const apiKey = process.env.LOVABLE_API_KEY;
+    let apiKey = process.env.LOVABLE_API_KEY;
+    if (!apiKey) {
+      try {
+        const { env } = await import("cloudflare:workers");
+        apiKey = (env as { LOVABLE_API_KEY?: string }).LOVABLE_API_KEY;
+      } catch {
+        // not running on Cloudflare Workers
+      }
+    }
     if (!apiKey) throw new Error("LOVABLE_API_KEY is not configured");
 
     const system = `You are an assistant that helps students create high-quality content.
