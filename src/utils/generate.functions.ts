@@ -22,7 +22,7 @@ export const generateContent = createServerFn({ method: "POST" })
       try {
         const mod = await import(/* @vite-ignore */ "cloudflare:workers" as string);
         const env = (mod as { env?: Record<string, string | undefined> }).env;
-        apiKey = (env as { LOVABLE_API_KEY?: string }).LOVABLE_API_KEY;
+        apiKey = env?.LOVABLE_API_KEY;
       } catch {
         // not running on Cloudflare Workers
       }
