@@ -73,14 +73,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Smart Student Email Generator" },
+      { name: "description", content: "Smart Study Buddy is an AI-powered web app that generates various content types for students." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "Smart Student Email Generator" },
+      { property: "og:description", content: "Smart Study Buddy is an AI-powered web app that generates various content types for students." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Smart Student Email Generator" },
+      { name: "twitter:description", content: "Smart Study Buddy is an AI-powered web app that generates various content types for students." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/386ec001-a02f-4e26-a41e-ec9a90bb3b21/id-preview-e8868e19--c0430edf-c457-45fb-a8d0-1e07a9e7f79f.lovable.app-1778438058719.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/386ec001-a02f-4e26-a41e-ec9a90bb3b21/id-preview-e8868e19--c0430edf-c457-45fb-a8d0-1e07a9e7f79f.lovable.app-1778438058719.png" },
     ],
     links: [
       {
